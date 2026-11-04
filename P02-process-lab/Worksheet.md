@@ -75,7 +75,7 @@ new --Popen--> runnable/running --CPU phase 0.75 s--> waiting for terminal input
 - Exit result reported by parent: `wait() returned; child exit code was 7.` The parent itself exited with status 0.
 - What “reaped by parent” means here: the parent collected the child's exit status with `wait()`, so the kernel could remove the child's entry from the process table. Until then an exited child stays as a zombie. After the run `ps -p 25627` showed no process.
 
-The loop can move between runnable and running many times; the print order in the terminal does not show the real scheduling order.
+Ready/runnable means the child could run and only needs a free CPU (during the loop). Blocked means it cannot run even if a CPU is free, until an event happens (here, Enter on the terminal). The loop can move between runnable and running many times; the print order in the terminal does not show the real scheduling order.
 
 ### Windows and POSIX comparison
 
