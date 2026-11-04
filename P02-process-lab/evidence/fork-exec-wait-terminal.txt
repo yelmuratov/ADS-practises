@@ -1,0 +1,18 @@
+$ python3 starter/fork_exec_wait.py
+FORK-DEMO: parent PID=27162 is about to fork.
+FORK-DEMO: parent created PID=27164; waiting for it.
+CHILD: started
+CHILD: PID=27164 PPID=27162
+CHILD: platform=Linux Python=3.14.7
+CHILD: CPU phase for 0.75 seconds...
+CHILD: CPU phase complete (8770882 loop iterations).
+CHILD: press Enter to continue and write synthetic lab output:
+CHILD: wrote synthetic data to output/child-result.txt
+CHILD: exiting with code 7.
+FORK-DEMO: waited for PID=27164; exit code=7
+
+Terminal B while the forked child waited for input:
+$ ps -o pid,ppid,stat,wchan:20,cmd -p 27162,27164
+    PID    PPID STAT WCHAN                CMD
+  27162   25590 S+   do_wait              python3 starter/fork_exec_wait.py
+  27164   27162 S+   wait_woken           /usr/bin/python3 -u ~/Hobby/ADS-practises/P02-process-lab/starter/child.py
