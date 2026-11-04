@@ -1,0 +1,22 @@
+$ python3 starter/parent.py
+PARENT: starting child with this Python runtime: /usr/bin/python3
+PARENT: child PID is 25627; waiting for it to exit.
+CHILD: started
+CHILD: PID=25627 PPID=25619
+CHILD: platform=Linux Python=3.14.7
+CHILD: CPU phase for 0.75 seconds...
+CHILD: CPU phase complete (8988250 loop iterations).
+CHILD: press Enter to continue and write synthetic lab output:
+CHILD: wrote synthetic data to output/child-result.txt
+CHILD: exiting with code 7.
+PARENT: wait() returned; child exit code was 7.
+PARENT: non-zero is intentional in this lab; the parent reports it and exits normally.
+$ echo "parent exit status: $?"
+parent exit status: 0
+$ cat output/child-result.txt
+P02 synthetic lab output
+child_pid=25627
+parent_pid=25619
+platform=Linux
+cpu_iterations=8988250
+requested_exit_code=7

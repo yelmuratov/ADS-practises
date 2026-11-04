@@ -1,0 +1,32 @@
+Terminal B, while the child waited at the input prompt (2026-11-04 18:36:54 +05)
+Kali Linux rolling, kernel 7.1.5, Python 3.14.7
+
+$ ps -o pid,ppid,stat,%cpu,vsz,rss,nlwp,comm -p 25627
+    PID    PPID STAT %CPU    VSZ   RSS NLWP COMMAND
+  25627   25619 S+    9.4  21840 12964    1 python3
+
+$ ps -o pid,ppid,stat,%cpu,vsz,rss,nlwp,comm -p 25619
+    PID    PPID STAT %CPU    VSZ   RSS NLWP COMMAND
+  25619   25590 S+    0.6  22140 13528    1 python3
+
+$ ps -o pid,ppid,stat,time,wchan:20,comm -p 25619,25627
+    PID    PPID STAT     TIME WCHAN                COMMAND
+  25619   25590 S+   00:00:00 do_wait              python3
+  25627   25619 S+   00:00:00 wait_woken           python3
+
+$ ls -l /proc/25627/fd
+total 0
+lrwx------ 1 kali kali 64 Nov  4 18:36 0 -> /dev/pts/2
+lrwx------ 1 kali kali 64 Nov  4 18:36 1 -> /dev/pts/2
+lrwx------ 1 kali kali 64 Nov  4 18:36 2 -> /dev/pts/2
+
+$ grep -E 'State|Threads|VmRSS|voluntary' /proc/25627/status
+State:	S (sleeping)
+VmRSS:	   12964 kB
+Threads:	1
+voluntary_ctxt_switches:	3
+nonvoluntary_ctxt_switches:	4
+
+After pressing Enter in terminal A:
+$ ps -p 25627
+    PID TTY          TIME CMD
