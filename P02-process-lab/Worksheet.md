@@ -96,10 +96,10 @@ Windows has no `fork()`. `CreateProcess` creates a new process and loads the giv
 ## 5. Controlled change
 
 - I changed: `EXIT_CODE` / `CPU_SECONDS`
-- New value: ____________________
-- My prediction: ______________________________________________________________
-- Visible result: _____________________________________________________________
-- Did the output file agree with the result? ___________________________________
+- New value: `EXIT_CODE = 0` (was 7) and `CPU_SECONDS = 1.50` (was 0.75)
+- My prediction: the parent reports exit code 0 and no longer prints the "non-zero is intentional" line. The CPU phase takes about twice as long, so the loop count should be roughly double.
+- Visible result: `CHILD: CPU phase for 1.5 seconds...`, `CHILD: exiting with code 0.`, `PARENT: wait() returned; child exit code was 0.` with no extra line. Loop count 17,899,620 vs 8,988,250 in run 1 (about 1.99x). Parent exit status 0. (`evidence/run2-exit0-terminal.txt`)
+- Did the output file agree with the result? Yes: `child_pid=28187`, `cpu_iterations=17899620`, `requested_exit_code=0`.
 
 ## 6. Runtime ADR — provisional project runtime
 
@@ -107,32 +107,32 @@ Windows has no `fork()`. `CreateProcess` creates a new process and loads the giv
 
 - **Decision.** Provisional choice: C#/.NET / lecturer-agreed Java:
 
-  ____________________________________________________________________________
+  C#/.NET, provisional until the lecturer confirms.
 
 - **Context and evidence.** How do mixed developer laptops affect this? What toolchain/support/portability evidence do you have?
 
-  ____________________________________________________________________________
+  The team uses different laptops (Windows, Linux, macOS), so the runtime has to work the same on all three with the same commands. The .NET SDK runs on all three and the `dotnet` CLI is the same everywhere. The course baseline from P01 already assumes C#/.NET, and the later practice starters include C#. On my laptop: .NET SDK 6.0.400 (runtime 6.0.8) is installed; Java has only a runtime (OpenJDK 25), `javac` is not installed. I have not tested Windows or macOS myself.
 
 - **Unknowns to check before committing:**
 
-  ____________________________________________________________________________
+  Which .NET version the later labs need (6.0 is out of support, probably 8 or newer); whether the lab PCs in rooms 230/231 have the SDK; editor support on Linux (no Visual Studio, so VS Code/Rider/CLI); whether the lecturer prefers Java for this group.
 
 - **Consequence and trade-off of the provisional choice:**
 
-  ____________________________________________________________________________
+  Easier: one toolchain and the same build/run commands on every laptop, and it matches the C# starter code in later practices. Trade-off: I need to install a newer SDK; teammates who know Java better have to learn C#; if the lecturer decides on Java we have to switch early, before there is much code.
 
 - **Supporting mini decision:** Why does this parent wait for its child before reporting the synthetic result?
 
-  ____________________________________________________________________________
+  The parent can only report the result after the child has exited and written the file, and `wait()` gives it the real exit code and reaps the child so it does not stay a zombie. For one short helper there is nothing else for the parent to do, so a synchronous wait is the simplest correct choice.
 
 ## 7. Exit check
 
 Tick each item you can show the teacher:
 
-- [ ] I identified a PID and the parent/child relationship.
-- [ ] I explained why `input()` causes the child to wait.
-- [ ] I used an observation or honestly marked a tool unavailable.
-- [ ] I identified the intentional exit code and synthetic output file.
-- [ ] I completed the boundary diagram, lifecycle, Windows/POSIX comparison and ADR.
-- [ ] I explained ready versus blocked and why saved output survives exit.
+- [x] I identified a PID and the parent/child relationship.
+- [x] I explained why `input()` causes the child to wait.
+- [x] I used an observation or honestly marked a tool unavailable.
+- [x] I identified the intentional exit code and synthetic output file.
+- [x] I completed the boundary diagram, lifecycle, Windows/POSIX comparison and ADR.
+- [x] I explained ready versus blocked and why saved output survives exit.
 - [ ] I saved this worksheet in the location the teacher specified.
