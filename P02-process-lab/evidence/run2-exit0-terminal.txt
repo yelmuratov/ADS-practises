@@ -1,0 +1,21 @@
+$ python3 starter/parent.py
+PARENT: starting child with this Python runtime: /usr/bin/python3
+PARENT: child PID is 28187; waiting for it to exit.
+CHILD: started
+CHILD: PID=28187 PPID=28185
+CHILD: platform=Linux Python=3.14.7
+CHILD: CPU phase for 1.5 seconds...
+CHILD: CPU phase complete (17899620 loop iterations).
+CHILD: press Enter to continue and write synthetic lab output:
+CHILD: wrote synthetic data to output/child-result.txt
+CHILD: exiting with code 0.
+PARENT: wait() returned; child exit code was 0.
+$ echo "parent exit status: $?"
+parent exit status: 0
+$ cat output/child-result.txt
+P02 synthetic lab output
+child_pid=28187
+parent_pid=28185
+platform=Linux
+cpu_iterations=17899620
+requested_exit_code=0

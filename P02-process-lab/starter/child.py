@@ -8,8 +8,8 @@ import sys
 import time
 from pathlib import Path
 
-EXIT_CODE = 7
-CPU_SECONDS = 0.75
+EXIT_CODE = 0
+CPU_SECONDS = 1.50
 LAB_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_FILE = LAB_ROOT / "output" / "child-result.txt"
 
